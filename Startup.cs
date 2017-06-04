@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.AspNetCore.NodeServices;
-using AspCoreServer.Data;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace AspCoreServer
@@ -50,12 +49,6 @@ namespace AspCoreServer
       services.AddMvc();
       services.AddNodeServices();
 
-      var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "spa.db" };
-      var connectionString = connectionStringBuilder.ToString();
-
-      services.AddDbContext<SpaDbContext>(options =>
-          options.UseSqlite(connectionString));
-
       // Register the Swagger generator, defining one or more Swagger documents
       services.AddSwaggerGen(c =>
       {
@@ -64,7 +57,7 @@ namespace AspCoreServer
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SpaDbContext context)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
       loggerFactory.AddConsole(Configuration.GetSection("Logging"));
       loggerFactory.AddDebug();
@@ -77,8 +70,6 @@ namespace AspCoreServer
         app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
           HotModuleReplacement = true
         });
-
-        DbInitializer.Initialize(context);
 
         app.UseSwagger();
 

@@ -34,10 +34,10 @@ export class AppComponent implements OnInit, OnDestroy {
         @Inject(REQUEST) private request
     ) {
         // this language will be used as a fallback when a translation isn't found in the current language
-        translate.setDefaultLang('en');
+        translate.setDefaultLang('de');
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
-        translate.use('en');
+        translate.use('de');
 
         console.log(`What's our REQUEST Object look like?`);
         console.log(`The Request object only really exists on the Server, but on the Browser we can at least see Cookies`);
